@@ -158,10 +158,6 @@ class GoveeLightEntity(LightEntity):
         support_flags = 0
         if self._device.support_brightness:
             support_flags |= SUPPORT_BRIGHTNESS
-        if self._device.support_color:
-            support_flags |= SUPPORT_COLOR
-        if self._device.support_color_tem:
-            support_flags |= SUPPORT_COLOR_TEMP
         return support_flags
 
     async def async_turn_on(self, **kwargs):
@@ -172,25 +168,11 @@ class GoveeLightEntity(LightEntity):
         err = None
 
         just_turn_on = True
-        if ATTR_HS_COLOR in kwargs:
-            hs_color = kwargs.pop(ATTR_HS_COLOR)
-            just_turn_on = False
-            col = color.color_hs_to_RGB(hs_color[0], hs_color[1])
-            _, err = await self._hub.set_color(self._device, col)
         if ATTR_BRIGHTNESS in kwargs:
             brightness = kwargs.pop(ATTR_BRIGHTNESS)
             just_turn_on = False
             bright_set = brightness - 1
             _, err = await self._hub.set_brightness(self._device, bright_set)
-        if ATTR_COLOR_TEMP in kwargs:
-            color_temp = kwargs.pop(ATTR_COLOR_TEMP)
-            just_turn_on = False
-            color_temp_kelvin = color.color_temperature_mired_to_kelvin(color_temp)
-            if color_temp_kelvin > COLOR_TEMP_KELVIN_MAX:
-                color_temp_kelvin = COLOR_TEMP_KELVIN_MAX
-            elif color_temp_kelvin < COLOR_TEMP_KELVIN_MIN:
-                color_temp_kelvin = COLOR_TEMP_KELVIN_MIN
-            _, err = await self._hub.set_color_temp(self._device, color_temp_kelvin)
 
         # if there is no known specific command - turn on
         if just_turn_on:
