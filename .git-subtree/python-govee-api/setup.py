@@ -4,10 +4,10 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 INSTALL_REQUIRES = [
-    "aiohttp>=3.7.1",
+    "aiohttp>=3.7.4.post0",
     "bios>=0.1.2",
     "certifi>=2021.10.8",
-    "dacite>=1.6.0",
+    "dacite>=1.8.0",
     "events>=0.3",
     "pexpect>=4.8.0",
     "pygatt>=4.0.5",
@@ -16,7 +16,7 @@ INSTALL_REQUIRES = [
 
 setuptools.setup(
     name="govee_api_laggat",
-    version="0.2.2",
+    version="2023.11.1",
     author="Florian Lagg @LaggAt",
     author_email="florian.lagg@gmail.com",
     description="Implementation of the govee API to control LED strips and bulbs.",
